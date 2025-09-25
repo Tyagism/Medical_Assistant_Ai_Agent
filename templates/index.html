@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Medicine Assistant</title>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #181824 0%, #23243a 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 10s ease-in-out infinite;
+            color: #fff;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 420px;
+            margin: auto;
+            background: rgba(24, 24, 36, 0.98);
+            border-radius: 2rem;
+            box-shadow: 0 0 32px 4px rgba(0,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.05);
+            padding: 2.5rem 2rem 2rem 2rem;
+            text-align: center;
+            color: #fff;
+        }
+        h2 {
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            /* Optionally keep the gradient text, but fallback to white for accessibility */
+            background: linear-gradient(90deg, #ff00cc, #00ffea, #fffb00, #ff00cc);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: #fff;
+            animation: gradientMove 8s linear infinite;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.1em;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            outline: none;
+            box-shadow: 0 0 8px 0 rgba(0,255,255,0.15);
+            transition: background 0.2s;
+        }
+        input[type="text"]:focus {
+            background: rgba(255,255,255,0.15);
+        }
+        button {
+            padding: 0.8rem 2.2rem;
+            border: 2px solid #ffffffd9;
+            border-radius: 1rem;
+            background: transparent;
+            color: #fff;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background 0.2s, color 0.2s, border 0.2s;
+        }
+        button:hover {
+            background: #fff;
+            color: #181824;
+            border: 2px solid #fff;
+        }
+        #result {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            background: rgba(24,24,36,0.85);
+            color: #fff;
+            min-height: 2.5rem;
+            font-size: 1.08em;
+            box-shadow: 0 0 8px 0 rgba(0,255,255,0.08);
+            word-break: break-word;
+        }
+        .loader {
+            margin: 1.5rem auto 0 auto;
+            border: 4px solid rgba(255,255,255,0.15);
+            border-top: 4px solid #00ffea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 16px 2px #00ffea44;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h2>💊 Medicine Info Assistant</h2>
+    <input type="text" id="prompt" placeholder="Enter medicine name or question..." onkeydown="if(event.key==='Enter'){askGemini();}" />
+    <button onclick="askGemini()">Get Response</button>
+    <div id="result"></div>
+    </div>
+    <script>
+        function askGemini() {
+            const prompt = document.getElementById('prompt').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="loader"></div><div style="margin-top:0.5rem; font-size:1em; color:#fff;">Responding Please Wait...</div>';
+            fetch('/api/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            })
+            .then(res => res.json())
+            .then(data => {
+                resultDiv.innerText = data.result;
+            })
+            .catch(() => {
+                resultDiv.innerText = 'Error fetching response.';
+            });
+        }
+    </script>
+</body>
+</html>
