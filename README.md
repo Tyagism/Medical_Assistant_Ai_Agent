@@ -1,6 +1,6 @@
 # Gemini Medicine Assistant (Python Flask)
 
-This is a modern, minimalist web application that integrates with the Google Gemini API and provides a beautiful interface for users to ask about medicines and health topics. It uses a temporary in-memory database for medicine data, ready for future extension to a real database.
+This is a modern, minimalist web application that integrates with the Google Gemini API and provides a beautiful interface for users to ask about medicines and health topics. It currently uses a temporary in-memory database for medicine data, ready for future extension to a real database.
 
 ## Features
 - Modern, neon-gradient, minimalist UI with dark mode
