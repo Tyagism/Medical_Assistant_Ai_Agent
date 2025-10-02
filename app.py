@@ -28,8 +28,9 @@ def index():
 def ask():
     data = request.json
     user_prompt = data.get("prompt", "")
-    # Try Gemini API first
+    # Gemini API now uses RAG workflow and custom allergy data
     gemini_response = call_gemini_api(user_prompt, GEMINI_API_KEY)
+
     # If user asked for a medicine, try to add medicine info
     medicine = temp_medicine_db.get(user_prompt.lower())
     if medicine:

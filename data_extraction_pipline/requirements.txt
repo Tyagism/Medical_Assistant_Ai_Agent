@@ -1,0 +1,17 @@
+requests
+
+tqdm
+python-dotenv
+pandas
+biopython
+beautifulsoup4
+pymupdf            # fitz
+sentence-transformers
+chromadb
+spacy
+scispacy
+regex
+transformers
+rfc3339
+tqdm
+pyyaml
